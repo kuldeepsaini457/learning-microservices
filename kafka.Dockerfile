@@ -1,0 +1,4 @@
+services:
+
+  kafka:
+    image: bitnami/kafka:latest
