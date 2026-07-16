@@ -1,4 +1,4 @@
-package com.kuldeeplearning.hexagonal.validation;
+package com.kuldeeplearning.hexagonal.validation.domain;
 
 public enum ValidationStatus {
 

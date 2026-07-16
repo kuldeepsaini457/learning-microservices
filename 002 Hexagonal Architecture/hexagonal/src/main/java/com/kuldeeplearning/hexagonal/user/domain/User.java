@@ -1,15 +1,10 @@
-package com.kuldeeplearning.hexagonal.user;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.*;
+package com.kuldeeplearning.hexagonal.user.domain;
 
 import java.util.UUID;
 
 public class User {
 
-    private UUID id;
+    private final UUID id;
     private String username;
     private String email;
 
@@ -37,7 +32,7 @@ public class User {
 
     public void changeEmail(String email) {
 
-        if(email == null || email.isBlank()) {
+        if (email == null || email.isBlank()) {
 
             throw new IllegalArgumentException(
                     "Email cannot be blank"
@@ -49,7 +44,7 @@ public class User {
 
     public void changeUsername(String username) {
 
-        if(username == null || username.isBlank()) {
+        if (username == null || username.isBlank()) {
 
             throw new IllegalArgumentException(
                     "Username cannot be blank"

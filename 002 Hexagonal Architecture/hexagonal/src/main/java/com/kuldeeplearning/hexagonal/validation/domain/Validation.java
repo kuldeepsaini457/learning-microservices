@@ -1,14 +1,11 @@
-package com.kuldeeplearning.hexagonal.validation;
-
-import jakarta.persistence.*;
-import lombok.*;
+package com.kuldeeplearning.hexagonal.validation.domain;
 
 import java.util.UUID;
 
 public class Validation {
 
-    private UUID id;
-    private UUID reportId;
+    private final UUID id;
+    private final UUID reportId;
     private ValidationStatus status;
     private String remarks;
 
@@ -22,6 +19,22 @@ public class Validation {
         this.reportId = reportId;
         this.status = status;
         this.remarks = remarks;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public UUID getReportId() {
+        return reportId;
+    }
+
+    public ValidationStatus getStatus() {
+        return status;
+    }
+
+    public String getRemarks() {
+        return remarks;
     }
 
     public void pass(String remarks) {

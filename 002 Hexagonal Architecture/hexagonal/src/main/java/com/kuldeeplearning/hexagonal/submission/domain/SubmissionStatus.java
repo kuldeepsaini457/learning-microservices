@@ -1,4 +1,4 @@
-package com.kuldeeplearning.hexagonal.submission;
+package com.kuldeeplearning.hexagonal.submission.domain;
 
 public enum SubmissionStatus {
 

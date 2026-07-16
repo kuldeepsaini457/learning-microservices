@@ -1,0 +1,10 @@
+package com.kuldeeplearning.reportservice.dto;
+
+import jakarta.validation.constraints.NotBlank;
+
+public record CreateReportRequest(
+
+        @NotBlank
+        String name
+) {
+}
