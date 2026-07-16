@@ -1,9 +1,7 @@
 package com.kuldeeplearning.hexagonal.report.application;
 
-import com.kuldeeplearning.hexagonal.report.CreateReportRequest;
-import com.kuldeeplearning.hexagonal.report.ReportRepository;
-import com.kuldeeplearning.hexagonal.report.ReportResponse;
 import com.kuldeeplearning.hexagonal.report.domain.Report;
+import com.kuldeeplearning.hexagonal.report.domain.ReportRepositoryPort;
 import com.kuldeeplearning.hexagonal.report.domain.ReportStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,86 +11,55 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ReportService {
+public class ReportService implements
+        CreateReportUseCase,
+        GetReportUseCase,
+        ValidateReportUseCase,
+        SubmitReportUseCase {
 
-    private final ReportRepository reportRepository;
+    private final ReportRepositoryPort repository;
 
-    public ReportResponse createReport(
-            CreateReportRequest request) {
-
-        Report report =
-                Report.builder()
-                        .id(UUID.randomUUID())
-                        .name(request.name())
-                        .status(ReportStatus.DRAFT)
-                        .createdAt(LocalDateTime.now())
-                        .build();
-
-        reportRepository.save(report);
-
-        return map(report);
-    }
-
-    public ReportResponse getReport(UUID reportId) {
+    @Override
+    public Report createReport(String name) {
 
         Report report =
-                reportRepository.findById(reportId)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Report not found"));
+                new Report(
+                        UUID.randomUUID(),
+                        name,
+                        ReportStatus.DRAFT,
+                        LocalDateTime.now()
+                );
 
-        return map(report);
+        return repository.save(report);
     }
 
-    public ReportResponse validateReport(UUID reportId) {
+    @Override
+    public Report getReport(UUID reportId) {
 
-        Report report =
-                reportRepository.findById(reportId)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Report not found"));
-
-        report.setStatus(
-                ReportStatus.VALIDATED
-        );
-
-        reportRepository.save(report);
-
-        return map(report);
+        return repository.findById(reportId)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Report not found"
+                        ));
     }
 
-    public ReportResponse submitReport(UUID reportId) {
+    @Override
+    public Report validateReport(UUID reportId) {
 
-        Report report =
-                reportRepository.findById(reportId)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Report not found"));
+        Report report = getReport(reportId);
 
-        if (report.getStatus() != ReportStatus.VALIDATED) {
+        report.validate();
 
-            throw new IllegalStateException(
-                    "Report must be validated before submission"
-            );
-        }
-
-        report.setStatus(
-                ReportStatus.SUBMITTED
-        );
-
-        reportRepository.save(report);
-
-        return map(report);
+        return repository.save(report);
     }
 
-    private ReportResponse map(
-            Report report) {
+    @Override
+    public Report submitReport(UUID reportId) {
 
-        return new ReportResponse(
-                report.getId(),
-                report.getName(),
-                report.getStatus(),
-                report.getCreatedAt()
-        );
+        Report report = getReport(reportId);
+
+        report.submit();
+
+        return repository.save(report);
     }
 }

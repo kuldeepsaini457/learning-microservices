@@ -1,10 +1,11 @@
 package com.kuldeeplearning.hexagonal.report.adapters.inbound;
 
-import com.kuldeeplearning.hexagonal.report.CreateReportRequest;
-import com.kuldeeplearning.hexagonal.report.ReportResponse;
-import com.kuldeeplearning.hexagonal.report.application.ReportService;
+import com.kuldeeplearning.hexagonal.report.application.*;
+import com.kuldeeplearning.hexagonal.report.dto.*;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -14,43 +15,48 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ReportController {
 
-    private final ReportService reportService;
+    private final CreateReportUseCase createReportUseCase;
+    private final GetReportUseCase getReportUseCase;
+    private final ValidateReportUseCase validateReportUseCase;
+    private final SubmitReportUseCase submitReportUseCase;
 
     @PostMapping
     public ReportResponse createReport(
-            @RequestBody
             @Valid
+            @RequestBody
             CreateReportRequest request) {
 
-        return reportService.createReport(
-                request
+        return ReportResponse.from(
+                createReportUseCase.createReport(
+                        request.name()
+                )
         );
     }
 
-    @GetMapping("/{reportId}")
+    @GetMapping("/{id}")
     public ReportResponse getReport(
-            @PathVariable UUID reportId) {
+            @PathVariable UUID id) {
 
-        return reportService.getReport(
-                reportId
+        return ReportResponse.from(
+                getReportUseCase.getReport(id)
         );
     }
 
-    @PostMapping("/{reportId}/validate")
+    @PostMapping("/{id}/validate")
     public ReportResponse validateReport(
-            @PathVariable UUID reportId) {
+            @PathVariable UUID id) {
 
-        return reportService.validateReport(
-                reportId
+        return ReportResponse.from(
+                validateReportUseCase.validateReport(id)
         );
     }
 
-    @PostMapping("/{reportId}/submit")
+    @PostMapping("/{id}/submit")
     public ReportResponse submitReport(
-            @PathVariable UUID reportId) {
+            @PathVariable UUID id) {
 
-        return reportService.submitReport(
-                reportId
+        return ReportResponse.from(
+                submitReportUseCase.submitReport(id)
         );
     }
 }

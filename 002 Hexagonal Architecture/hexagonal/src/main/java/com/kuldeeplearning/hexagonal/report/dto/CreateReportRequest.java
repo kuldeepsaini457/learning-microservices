@@ -1,4 +1,4 @@
-package com.kuldeeplearning.hexagonal.report;
+package com.kuldeeplearning.hexagonal.report.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

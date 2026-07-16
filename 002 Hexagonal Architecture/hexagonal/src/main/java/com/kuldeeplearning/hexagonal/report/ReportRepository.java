@@ -1,10 +1,10 @@
 package com.kuldeeplearning.hexagonal.report;
 
-import com.kuldeeplearning.hexagonal.report.domain.Report;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.kuldeeplearning.hexagonal.report.domain.ReportRepositoryPort;
 
-import java.util.UUID;
-
-public interface ReportRepository
-        extends JpaRepository<Report, UUID> {
+/**
+ * Temporary compatibility boundary for modules not yet refactored in phase 002.
+ * New report code must depend on {@link ReportRepositoryPort} instead.
+ */
+public interface ReportRepository extends ReportRepositoryPort {
 }
