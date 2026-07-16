@@ -6,7 +6,7 @@ This repository contains the code and notes from my journey of learning the **Mi
 
 ### Prerequisites
 
-Before starting, install **SDKMAN!**, which makes it easy to manage multiple Java versions on your machine.
+Before you begin, install **SDKMAN!**, which makes it easy to manage multiple Java versions on your machine.
 
 ### Install SDKMAN!
 
@@ -14,13 +14,13 @@ Before starting, install **SDKMAN!**, which makes it easy to manage multiple Jav
 curl -s "https://get.sdkman.io" | zsh
 ```
 
-### Load SDKMAN Environment
+### Load the SDKMAN Environment
 
 ```bash
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 ```
 
-### Verify SDKMAN Installation
+### Verify the SDKMAN Installation
 
 ```bash
 sdk version
@@ -40,7 +40,7 @@ sdk list java
 
 ### Install Java 17
 
-Select the desired version identifier from the list and install it:
+Select the version identifier you want from the list and install it:
 
 ```bash
 sdk install java 17.0.19-tem
@@ -56,7 +56,7 @@ Example:
 sdk use java 21.0.8-tem
 ```
 
-### Verify Java Installation
+### Verify the Java Installation
 
 ```bash
 java -version
@@ -81,7 +81,7 @@ After installing JetBrains Toolbox:
 1. Launch JetBrains Toolbox.
 2. Find **IntelliJ IDEA** in the available products.
 3. Click **Install**.
-4. Open IntelliJ IDEA after the installation completes.
+4. Open IntelliJ IDEA once the installation is complete.
 
 ### Installation Screenshot
 
@@ -98,12 +98,12 @@ https://www.docker.com/products/docker-desktop/
 ### Installation Steps
 
 1. Download and launch the installer.
-2. Install using the recommended settings.
-3. macOS may ask to install Rosetta because some Docker components still rely on Intel-based binaries. Allow the installation if prompted.
+2. Install it using the recommended settings.
+3. On macOS, you may be prompted to install Rosetta because some Docker components still rely on Intel-based binaries. Allow the installation if prompted.
 4. Launch Docker Desktop.
-5. Sign up or sign in to Docker Desktop.
+5. Sign up for or sign in to Docker Desktop.
 
-### Verify Docker Installation
+### Verify the Docker Installation
 
 ```bash
 docker --version
@@ -121,7 +121,7 @@ Install kubectl using Homebrew:
 brew install kubectl
 ```
 
-#### Verify Installation
+#### Verify the Installation
 
 ```bash
 kubectl version --client
@@ -129,7 +129,7 @@ kubectl version --client
 
 ### Install k3d
 
-k3d is a lightweight Kubernetes distribution that runs Kubernetes clusters inside Docker containers. It is recommended over Minikube for local development because it is faster and consumes fewer resources.
+k3d is a lightweight Kubernetes distribution that runs Kubernetes clusters inside Docker containers. It is recommended over Minikube for local development because it is faster and uses fewer resources.
 
 #### Install k3d
 
@@ -217,16 +217,26 @@ brew install postgresql@16
 brew services start postgresql@16
 ```
 
+Create the database and user for the application. Run the following commands in the terminal:
+
+```bash
+psql postgres
+CREATE DATABASE microservices_learning;
+CREATE USER appuser WITH PASSWORD '12345678';
+\c microservices_learning
+ALTER SCHEMA public OWNER TO appuser;
+```
+
 ### Why PostgreSQL 16?
 
 PostgreSQL 16 is recommended because:
 
 - It is a stable and production-ready release.
-- It is widely adopted by the industry.
+- It is widely adopted in the industry.
 - It works seamlessly with Spring Boot 3.x.
 - Most tutorials and examples remain compatible with PostgreSQL 16.
 
-### Verify Installation
+### Verify the Installation
 
 ```bash
 psql --version
@@ -238,11 +248,31 @@ psql --version
 psql postgres
 ```
 
-If this does not work, ensure the PostgreSQL service is running:
+If this does not work, ensure that the PostgreSQL service is running:
 
 ```bash
 brew services list
 ```
+
+### Install DBeaver
+
+You can install DBeaver using Homebrew or use the terminal:
+
+```bash
+brew install --cask dbeaver-community
+```
+
+Then launch it.
+
+- You may be prompted to create a sample SQLite database. Cancel that step.
+- Click the **Create New Database Connection** icon (the plug icon) in the top-left corner.
+- Select **PostgreSQL** and click **Next**.
+- Enter the username as `appuser` (the user you created above).
+- Enter the database name as `microservices_learning` (the database you created above).
+- Click **Test Connection**. This will download the driver on the first run.
+- Click **Finish**.
+
+Right-click the PostgreSQL database under **Postgres > Databases** and select **SQL Editor > Open New SQL Editor** to enter and run your queries.
 
 ---
 
@@ -269,7 +299,7 @@ Start Kafka:
 docker compose up -d
 ```
 
-Verify Kafka container status:
+Verify the Kafka container status:
 
 ```bash
 docker ps
@@ -277,7 +307,7 @@ docker ps
 
 ### Why Run Kafka in Docker?
 
-- Keeps the local machine clean.
+- Keeps your local machine clean.
 - Simplifies upgrades.
 - Makes the setup reproducible across environments.
 - Aligns with how Kafka is commonly deployed in modern development environments.
@@ -287,7 +317,7 @@ docker ps
 ## Recommended Tool Stack
 
 | Tool | Purpose |
-|--------|----------|
+|------|---------|
 | SDKMAN | Java version management |
 | Java 17 | Primary development JDK |
 | IntelliJ IDEA | Java IDE |
